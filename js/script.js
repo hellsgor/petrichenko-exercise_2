@@ -39,13 +39,13 @@ window.addEventListener('DOMContentLoaded', function() {
 
   let year = new Date().getFullYear();
   let month = `${new Date().getMonth() + 1}`.length === 1 ? `0${new Date().getMonth() + 1}` : `${new Date().getMonth() + 1}`;
-  let date = new Date().getDate() + 1;
+  let date = `${new Date().getDate() + 1}`.length === 1 ? `0${new Date().getDate() + 1}` : `${new Date().getDate() + 1}`;;
 
   let deadline = `${year}-${month}-${date}`;
 
   function getTimeRemaining(endTime) {
-    let t = Date.parse(endTime) - Date.parse(new Date());
-    let seconds = Math.floor((t/1000) % 60);
+    let t = Date.parse(endTime) - Date.parse(new Date().toString());
+    let seconds = Math.floor((t / 1000) % 60);
     let minutes = Math.floor((t / 1000 / 60) % 60);
     let hours = Math.floor((t / 1000 / 60 / 60) % 24);
 
@@ -90,4 +90,28 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 
   setClock('timer', deadline);
+
+
+  // MODAL
+  const more = document.querySelector('.more');
+  const overlay = document.querySelector('.overlay');
+  const close = overlay.querySelector('.popup-close');
+  const tabLearnMoreButtons = document.querySelectorAll('.description-btn');
+
+  more.addEventListener('click', showModal);
+  tabLearnMoreButtons.forEach(learnMoreButton => {
+    learnMoreButton.addEventListener('click', showModal);
+  })
+
+  close.addEventListener('click', function() {
+    overlay.style.display = 'none';
+    more.classList.remove('more-splash');
+    document.body.style.overflow = '';
+  })
+
+  function showModal() {
+    overlay.style.display = 'block';
+    more.classList.add('more-splash');
+    document.body.style.overflow = 'hidden';
+  }
 })
