@@ -1,6 +1,6 @@
-window.addEventListener('DOMContentLoaded', function() {
+'use strict';
 
-  'use strict';
+window.addEventListener('DOMContentLoaded', function() {
 
   let tab = document.querySelectorAll('.info-header-tab'),
     info = document.querySelector('.info-header'),
@@ -36,10 +36,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
   // TIMER
-
   let year = new Date().getFullYear();
   let month = `${new Date().getMonth() + 1}`.length === 1 ? `0${new Date().getMonth() + 1}` : `${new Date().getMonth() + 1}`;
-  let date = `${new Date().getDate() + 1}`.length === 1 ? `0${new Date().getDate() + 1}` : `${new Date().getDate() + 1}`;;
+  let date = `${new Date().getDate() + 1}`.length === 1 ? `0${new Date().getDate() + 1}` : `${new Date().getDate() + 1}`;
 
   let deadline = `${year}-${month}-${date}`;
 
@@ -66,9 +65,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
     function updateClock() {
       let t = getTimeRemaining(endTime);
-      hours.textContent = t.hours;
-      minutes.textContent = t.minute;
-      seconds.textContent = t.seconds;
+      hours.textContent = `${t.hours}`;
+      minutes.textContent = `${t.minute}`;
+      seconds.textContent = `${t.seconds}`;
       plusZero([hours, minutes, seconds]);
 
       function plusZero(units) {
