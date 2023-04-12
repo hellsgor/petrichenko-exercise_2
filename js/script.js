@@ -130,7 +130,8 @@ function formSubmission(form, event) {
   event.preventDefault();
 
   const message = {
-    loading: 'Загрузка',
+    start: 'Отправляем данные',
+    loading: 'Получение ответа',
     success: 'Спасибо! Скоро мы с вами свяжемся!',
     failure: 'Что-то пошло не так...'
   };
@@ -152,24 +153,42 @@ function formSubmission(form, event) {
   request.open('POST', '../server.php');
   // request.setRequestHeader('Content-Type', 'application/x-www-urlencoded');
   request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  request.send(json);
+  statusMessage.innerHTML = message.start;
 
-  request.addEventListener('readystatechange', function() {
 
-    if (request.readyState < 4) {
-      statusMessage.innerHTML = message.loading;
-    } else if (request.readyState === 4 && request.status === 200) {
-      statusMessage.innerHTML = message.success;
+  const response = new Promise((resolve, reject) => {
 
-      // let response = request.response;
-      // console.log(response);
+    statusMessage.innerHTML = message.loading;
 
-    } else {
-      statusMessage.innerHTML = message.failure;
-    }
+    setTimeout(function() {
 
-    clearingFormInputs(formInputs);
+      request.send(json);
+      request.addEventListener('readystatechange', function() {
+
+        if (request.readyState < 4) {
+          statusMessage.innerHTML = message.loading;
+        } else if (request.readyState === 4 && request.status === 200) {
+            resolve(message.success);
+
+          // let response = request.response;
+          // console.log(response);
+
+        } else {
+          statusMessage.innerHTML = message.failure;
+        }
+
+      })
+    }, 1000)
+
   })
+
+  response
+    .then(mes => {
+      statusMessage.innerText = mes;
+    })
+    .then(() => {
+      clearingFormInputs(formInputs);
+    })
 
 }
 
