@@ -241,5 +241,43 @@ function currentSlide(n) {
 }
 
 
+// calculator
+const persons = document.querySelectorAll('.counter-block-input')[0];
+const restDays = document.querySelectorAll('.counter-block-input')[1];
+const place = document.getElementById('select');
+const totalValue = document.getElementById('total');
+
+let personsSum = 0;
+let daysSum = 0;
+let total = 0;
+
+totalValue.innerText = 0;
+
+persons.addEventListener('input', firstPartCalc);
+restDays.addEventListener('input', firstPartCalc);
+
+function firstPartCalc() {
+  daysSum = Number(restDays.value);
+  personsSum = Number(persons.value);
+  if (personsSum && daysSum) {
+
+    total = (daysSum + personsSum) * 4000;
+  } else {
+    total = 0;
+  }
+  totalValue.innerText = total;
+}
+
+
+place.addEventListener('change', function () {
+  if (restDays.value === '' || persons.value === '') {
+    totalValue.innerText = 0;
+  } else {
+    let tempVariable = total;
+    totalValue.innerText = tempVariable * this.options[this.selectedIndex].value;
+  }
+})
+
+
 
 
